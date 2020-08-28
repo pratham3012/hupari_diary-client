@@ -17,6 +17,8 @@ import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,13 +26,13 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private Toolbar toolbar;
     private RecyclerView.LayoutManager layoutManager;
-    String [] myDataset;
+   List myDataset;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-myDataset=new String[100];
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -47,6 +49,7 @@ myDataset=new String[100];
         Log.i("TAG", "onCreate: ");
         RequestQueue queue = Volley.newRequestQueue(this);
         String url="https://mibtechnologies.in/hupariapp/index.php";
+        myDataset=new ArrayList();
 
         StringRequest request=new StringRequest(url, new Response.Listener<String>() {
             @Override
@@ -66,9 +69,11 @@ myDataset=new String[100];
                 for (CategoryJson categoryJson1: categoryJsons)
                 {
                     Log.i("TAG", "onResponse: "+categoryJson1.getName());
-                    myDataset[i]=categoryJson1.getName();
+                    myDataset.add(categoryJson1.getName());
                     i++;
                 }
+
+
                 mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
@@ -77,13 +82,13 @@ myDataset=new String[100];
                 Log.e("TAG", "onErrorResponse:",error );
             }
         });
-        mAdapter = new CatAdapter(myDataset);
-        recyclerView.setAdapter(mAdapter);
+
 
         queue.add(request);
 
         // specify an adapter (see also next example)
-
+        mAdapter = new CatAdapter(myDataset);
+        recyclerView.setAdapter(mAdapter);
 
 
     }
