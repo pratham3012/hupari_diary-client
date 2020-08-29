@@ -12,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import com.example.huparidiary.model.category;
+import com.squareup.picasso.Picasso;
 
 public class CatAdapter extends  RecyclerView.Adapter<CatAdapter.MyViewHolder>
 
 {
 
-    private List mDataset;
+    private List<category> mDataset;
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
     // you provide access to all the views for a data item in a view holder
@@ -34,8 +36,8 @@ public class CatAdapter extends  RecyclerView.Adapter<CatAdapter.MyViewHolder>
 
     // Provide a suitable constructor (depends on the kind of dataset)
 
-    public CatAdapter(List myDataset) {
-        mDataset=new ArrayList();
+    public CatAdapter(List<category> myDataset) {
+        mDataset=new ArrayList<category>();
         mDataset = myDataset;
     }
 
@@ -57,9 +59,10 @@ public class CatAdapter extends  RecyclerView.Adapter<CatAdapter.MyViewHolder>
     public void onBindViewHolder(MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
+       category catcalss= mDataset.get(position);
+       holder.catText.setText(catcalss.getCatName());
+       Picasso.get().load(catcalss.getCatImage()).into(holder.catImage);
 
-       holder.catText.setText(mDataset.get(position).toString());
-        holder.catImage.setImageResource(R.drawable.resturnat_logo);
 
     }
 

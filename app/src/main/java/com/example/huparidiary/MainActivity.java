@@ -27,14 +27,14 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
+import com.example.huparidiary.model.category;
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
     private Toolbar toolbar;
     private RecyclerView.LayoutManager layoutManager;
     Button uploadBtn;
-   List myDataset;
+   List<category> myDataset;
     public static final int PICK_IMAGE = 1;
 
 
@@ -94,8 +94,9 @@ uploadBtn.setOnClickListener(new View.OnClickListener() {
                 CategoryJson[] categoryJsons=  gson1.fromJson(response,CategoryJson[].class);
                 for (CategoryJson categoryJson1: categoryJsons)
                 {
-                    Log.i("TAG", "onResponse: "+categoryJson1.getName());
-                    myDataset.add(categoryJson1.getName());
+                    Log.i("TAG", "onResponse: "+categoryJson1.getCatname());
+                    category cat= new category(categoryJson1.getUid(),categoryJson1.getCatname(),categoryJson1.getCatimage());
+                    myDataset.add(cat);
                     i++;
                 }
 

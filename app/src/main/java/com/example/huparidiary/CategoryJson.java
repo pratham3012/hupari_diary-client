@@ -6,12 +6,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class CategoryJson {
 
+
     @SerializedName("uid")
     @Expose
     private String uid;
-    @SerializedName("name")
+    @SerializedName("catname")
     @Expose
-    private String name;
+    private String catname;
+    @SerializedName("catimage")
+    @Expose
+    private String catimage;
 
     public String getUid() {
         return uid;
@@ -21,12 +25,21 @@ public class CategoryJson {
         this.uid = uid;
     }
 
-    public String getName() {
-        return name;
+    public String getCatname() {
+        return catname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCatname(String catname) {
+        this.catname = catname;
+    }
+
+    public String getCatimage() {
+        return catimage;
+    }
+
+    public void setCatimage(String catimage) {
+        this.catimage = catimage;
     }
 
 }
+
