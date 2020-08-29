@@ -26,4 +26,12 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/include" />
+
+    <Button
+        android:id="@+id/uploadbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="uploadbtn"
+        app:layout_constraintBottom_toBottomOf="@+id/my_recycler_view"
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

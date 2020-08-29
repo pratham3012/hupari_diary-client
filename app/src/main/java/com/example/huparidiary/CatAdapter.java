@@ -58,7 +58,7 @@ public class CatAdapter extends  RecyclerView.Adapter<CatAdapter.MyViewHolder>
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.catText.setText(mDataset.get(position).toString());
+       holder.catText.setText(mDataset.get(position).toString());
         holder.catImage.setImageResource(R.drawable.resturnat_logo);
 
     }
