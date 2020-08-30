@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private Toolbar toolbar;
     private RecyclerView.LayoutManager layoutManager;
-    Button uploadBtn;
+
    List<category> myDataset;
     public static final int PICK_IMAGE = 1;
     Bitmap     bmp;
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-uploadBtn=findViewById(R.id.uploadbtn);
+
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -70,13 +70,9 @@ uploadBtn=findViewById(R.id.uploadbtn);
         RequestQueue queue = Volley.newRequestQueue(this);
         String url="https://mibtechnologies.in/hupariapp/index.php";
         myDataset=new ArrayList();
-uploadBtn.setOnClickListener(new View.OnClickListener() {
-    @Override
-    public void onClick(View view) {
 
-    }
 
-});
+
         StringRequest request=new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
