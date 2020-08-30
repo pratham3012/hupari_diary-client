@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -41,35 +42,44 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private Toolbar toolbar;
     private RecyclerView.LayoutManager layoutManager;
-
+    String url="https://mibtechnologies.in/hupariapp/index.php";
    List<category> myDataset;
     public static final int PICK_IMAGE = 1;
     Bitmap     bmp;
 
-
+ SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-
+swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
         toolbar = (Toolbar) findViewById(R.id.include);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle("Main Page");
+            getSupportActionBar().setTitle("category page");
         }
-        toolbar.setSubtitle("Test Subtitle");
+        toolbar.setSubtitle("category choose");
         toolbar.inflateMenu(R.menu.menu);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         Log.i("TAG", "onCreate: ");
         RequestQueue queue = Volley.newRequestQueue(this);
-        String url="https://mibtechnologies.in/hupariapp/index.php";
+
         myDataset=new ArrayList();
+
+        swipeRefreshLayout.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        doYourUpdate();
+                    }
+                }
+        );
 
 
 
@@ -183,5 +193,52 @@ public class MainActivity extends AppCompatActivity {
 
         }
     }
+    private void doYourUpdate() {
+        // TODO implement a refresh
+        RequestQueue queue = Volley.newRequestQueue(this);
 
+        myDataset=new ArrayList();
+        StringRequest request=new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+//                GsonBuilder gsonBuilder=new GsonBuilder();
+//                Gson gson =gsonBuilder.create();
+//                CategoryJson categoryJson=gson.fromJson(response,CategoryJson.class);
+//                Log.d("TAG", "onResponse: "+categoryJson.getName());
+//                Log.d("TAG", "onResponse: "+categoryJson.getUid().trim());
+                GsonBuilder builder=new GsonBuilder();
+
+                Gson gson1= builder.create();
+                int i=0;
+                CategoryJson[] categoryJsons=  gson1.fromJson(response,CategoryJson[].class);
+                for (CategoryJson categoryJson1: categoryJsons)
+                {
+                    Log.i("TAG", "onResponse: "+categoryJson1.getCatname());
+                    category cat= new category(categoryJson1.getUid(),categoryJson1.getCatname(),categoryJson1.getCatimage());
+                    myDataset.add(cat);
+                    i++;
+                }
+
+
+                mAdapter.notifyDataSetChanged();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", "onErrorResponse:",error );
+            }
+        });
+
+
+
+        queue.add(request);
+        // specify an adapter (see also next example)
+        mAdapter = new CatAdapter(myDataset);
+        recyclerView.setAdapter(mAdapter);
+
+
+        swipeRefreshLayout.setRefreshing(false); // Disables the refresh icon
+    }
 }
