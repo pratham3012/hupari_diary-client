@@ -3,9 +3,10 @@
 
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:background="#28FFC500"
     android:layout_height="wrap_content"
+    android:layout_margin="10dp"
     android:orientation="vertical">
 
     <TextView
@@ -14,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="add category "
+        android:text="++ add category ++"
         android:layout_marginBottom="14dp"
         android:textSize="40sp" />
 
@@ -54,35 +55,38 @@
 
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-    <Button
-        android:layout_gravity="right"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:id="@+id/btn_save_cat_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#F50057"
-        android:background="#651FFF"
-        android:text="save"
-        android:layout_weight="2"
-        android:textColor="#FFFFFF" />
-    <Button
-        android:layout_gravity="right"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
-        android:textAlignment="center"
-        android:layout_weight="2"
-        android:id="@+id/btn_cancel_cat_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#F50057"
-        android:background="#651FFF"
-        android:text="cancel"
-        android:textColor="#FFFFFF" />
-</LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btn_save_cat_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_weight="2"
+                android:background="#651FFF"
+                android:backgroundTint="#F50057"
+                android:gravity="center"
+                android:text="save"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+
+            <Button
+                android:id="@+id/btn_cancel_cat_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginLeft="20dp"
+                android:layout_weight="2"
+                android:background="#651FFF"
+                android:backgroundTint="#F50057"
+                android:gravity="center"
+                android:text="cancel"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF" />
+        </LinearLayout>
     </LinearLayout>
 
 

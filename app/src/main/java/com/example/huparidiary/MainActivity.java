@@ -11,8 +11,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -29,6 +31,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +39,9 @@ import java.util.UUID;
 
 import com.example.huparidiary.model.category;
 import com.squareup.picasso.Picasso;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
@@ -46,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
    List<category> myDataset;
     public static final int PICK_IMAGE = 1;
     Bitmap     bmp;
+    boolean canDelete=false;
 
  SwipeRefreshLayout swipeRefreshLayout;
     @Override
@@ -120,11 +127,13 @@ swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
         queue.add(request);
 
         // specify an adapter (see also next example)
-        mAdapter = new CatAdapter(myDataset);
+        mAdapter = new CatAdapter(this,myDataset);
         recyclerView.setAdapter(mAdapter);
 
 
+
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -169,7 +178,7 @@ swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
                 return true;
 
             case R.id.deleteCategory:
-              //todo delete category
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -220,8 +229,6 @@ swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
                     myDataset.add(cat);
                     i++;
                 }
-
-
                 mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
@@ -235,10 +242,12 @@ swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
 
         queue.add(request);
         // specify an adapter (see also next example)
-        mAdapter = new CatAdapter(myDataset);
+        mAdapter = new CatAdapter(this,myDataset);
         recyclerView.setAdapter(mAdapter);
 
 
         swipeRefreshLayout.setRefreshing(false); // Disables the refresh icon
+
     }
+
 }
