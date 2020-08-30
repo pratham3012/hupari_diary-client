@@ -11,6 +11,7 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -19,6 +20,10 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.huparidiary.adapters.CatAdapter;
+import com.example.huparidiary.network.CategoryJson;
+import com.example.huparidiary.network.imageupload;
+import com.example.huparidiary.ui.CategoryUploadDialog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -26,8 +31,11 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
+import java.util.UUID;
+
 import com.example.huparidiary.model.category;
+import com.squareup.picasso.Picasso;
+
 public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -36,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     Button uploadBtn;
    List<category> myDataset;
     public static final int PICK_IMAGE = 1;
+    Bitmap     bmp;
 
 
     @Override
@@ -64,16 +73,7 @@ uploadBtn=findViewById(R.id.uploadbtn);
 uploadBtn.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
-        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-        getIntent.setType("image/*");
 
-        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        pickIntent.setType("image/*");
-
-        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-        startActivityForResult(chooserIntent, PICK_IMAGE);
     }
 
 });
@@ -126,6 +126,50 @@ uploadBtn.setOnClickListener(new View.OnClickListener() {
         return true;
     }
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.addCategory:
+                Log.i("geraa", "onOptionsItemSelected: ");
+                Log.i("dialog", "onOptionsItemSelected: "+"clicked");
+                final CategoryUploadDialog uploadDialog = new CategoryUploadDialog(this);
+                uploadDialog.show();
+                uploadDialog.catImage.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                        getIntent.setType("image/*");
+
+                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        pickIntent.setType("image/*");
+
+                        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
+                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
+
+                        startActivityForResult(chooserIntent, PICK_IMAGE);
+                    }
+                });
+                uploadDialog.catSaveBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        final String uuid = UUID.randomUUID().toString().replace("-", "");
+                        Log.i("uuid is ", "onClick: "+uuid);
+                        String name=   new imageupload().uploadImageToImgur(bmp,uuid,uploadDialog.catName.getText().toString().trim());
+                        Log.i("war", "onActivityResult: "+name);
+
+                        uploadDialog.dismiss();
+                    }
+                });
+                return true;
+
+            case R.id.deleteCategory:
+              //todo delete category
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE) {
@@ -135,9 +179,8 @@ uploadBtn.setOnClickListener(new View.OnClickListener() {
             }
             try {
                 InputStream inputStream = this.getContentResolver().openInputStream(data.getData());
-           Bitmap     bmp = BitmapFactory.decodeStream(inputStream);
-        String name=   new imageupload().uploadImageToImgur(bmp);
-                Log.i("war", "onActivityResult: "+name);
+                bmp = BitmapFactory.decodeStream(inputStream);
+         Picasso.get().load(data.getData()).into(CategoryUploadDialog.catImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

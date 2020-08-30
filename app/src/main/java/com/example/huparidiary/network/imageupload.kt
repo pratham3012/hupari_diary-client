@@ -1,4 +1,4 @@
-package com.example.huparidiary
+package com.example.huparidiary.network
 
 import android.graphics.Bitmap
 import android.util.Base64
@@ -10,15 +10,15 @@ import kotlinx.coroutines.withContext
 import org.json.JSONObject
 import org.json.JSONTokener
 import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
 import java.io.ByteArrayOutputStream
 import java.io.OutputStreamWriter
 import java.net.URL
+import java.util.*
 import javax.net.ssl.HttpsURLConnection
 public class  imageupload {
     private val CLIENT_ID = "62865de1937fd8c"
  var urll:String="vv";
-    public fun uploadImageToImgur(image: Bitmap) :String{
+    public fun uploadImageToImgur(image: Bitmap,uuid: String,catName:String) :String{
         getBase64Image(image, complete = { base64Image ->
             GlobalScope.launch(Dispatchers.Default) {
                 var url = URL("https://api.imgur.com/3/image")
@@ -56,7 +56,7 @@ public class  imageupload {
                     Log.d("TAG", "Link is : ${data.getString("link")}")
                      urll=data.getString("link");
                     try {
-                      var  doc = Jsoup.connect("https://mibtechnologies.in/hupariapp/uploadCategory.php?uid=cggfdg&catname=lolwafsdsdgf&catimage=${data.getString("link")}").get()  // <2>
+                      var  doc = Jsoup.connect("https://mibtechnologies.in/hupariapp/uploadCategory.php?uid=${uuid}&catname=${catName}&catimage=${data.getString("link")}").get()  // <2>
 
                     }catch (e: Exception){
 

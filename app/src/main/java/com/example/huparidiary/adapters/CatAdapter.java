@@ -1,4 +1,4 @@
-package com.example.huparidiary;
+package com.example.huparidiary.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,12 +6,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+
+import com.example.huparidiary.R;
 import com.example.huparidiary.model.category;
 import com.squareup.picasso.Picasso;
 
