@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private Toolbar toolbar;
     private RecyclerView.LayoutManager layoutManager;
-    String url="https://mibtechnologies.in/hupariapp/index.php";
+    String url="https://www.mibtechnologies.in/hupariapp/index.php";
    List<category> myDataset;
     public static final int PICK_IMAGE = 1;
     Bitmap     bmp;
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
-swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
+        swipeRefreshLayout = findViewById(R.id.swiperefreshcat);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -77,7 +77,7 @@ swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
         Log.i("TAG", "onCreate: ");
         RequestQueue queue = Volley.newRequestQueue(this);
 
-        myDataset=new ArrayList();
+        myDataset = new ArrayList();
 
         swipeRefreshLayout.setOnRefreshListener(
                 new SwipeRefreshLayout.OnRefreshListener() {
@@ -87,53 +87,38 @@ swipeRefreshLayout=findViewById(R.id.swiperefreshcat);
                     }
                 }
         );
-
-
-
-        StringRequest request=new StringRequest(url, new Response.Listener<String>() {
+        StringRequest request = new StringRequest(url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
-
 //                GsonBuilder gsonBuilder=new GsonBuilder();
 //                Gson gson =gsonBuilder.create();
 //                CategoryJson categoryJson=gson.fromJson(response,CategoryJson.class);
 //                Log.d("TAG", "onResponse: "+categoryJson.getName());
 //                Log.d("TAG", "onResponse: "+categoryJson.getUid().trim());
-                GsonBuilder builder=new GsonBuilder();
-
-                Gson gson1= builder.create();
-                int i=0;
-                CategoryJson[] categoryJsons=  gson1.fromJson(response,CategoryJson[].class);
-                for (CategoryJson categoryJson1: categoryJsons)
-                {
-                    Log.i("TAG", "onResponse: "+categoryJson1.getCatname());
-                    category cat= new category(categoryJson1.getUid(),categoryJson1.getCatname(),categoryJson1.getCatimage());
+                GsonBuilder builder = new GsonBuilder();
+                Gson gson1 = builder.create();
+                int i = 0;
+                CategoryJson[] categoryJsons = gson1.fromJson(response, CategoryJson[].class);
+                for (CategoryJson categoryJson1 : categoryJsons) {
+                    Log.i("TAG", "onResponse: " + categoryJson1.getCatname());
+                    category cat = new category(categoryJson1.getUid(), categoryJson1.getCatname(), categoryJson1.getCatimage());
                     myDataset.add(cat);
                     i++;
                 }
-
-
                 mAdapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("TAG", "onErrorResponse:",error );
+                Log.e("TAG", "onErrorResponse:", error);
             }
         });
-
-
         queue.add(request);
 
         // specify an adapter (see also next example)
-        mAdapter = new CatAdapter(this,myDataset);
+        mAdapter = new CatAdapter(this, myDataset);
         recyclerView.setAdapter(mAdapter);
-
-
-
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

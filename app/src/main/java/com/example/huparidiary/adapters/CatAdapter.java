@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.huparidiary.ItemsActivity;
 import com.example.huparidiary.R;
 import com.example.huparidiary.model.category;
 import com.example.huparidiary.network.CategoryJson;
@@ -152,6 +154,14 @@ Activity activity;
                 alertDialog.show();
 
                 return false;
+            }
+        });
+        holder.catImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(activity, ItemsActivity.class);
+                intent.putExtra("CATNAME",holder.catText.getText().toString().trim());
+                activity.startActivity(intent);
             }
         });
         holder.catText.setOnLongClickListener(new View.OnLongClickListener() {
