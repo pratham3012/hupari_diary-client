@@ -71,6 +71,59 @@ public class  imageupload {
 
 
     }
+    public fun uploadImageToImgur(image: Bitmap,catname_item:String,itemname: String,phonenumber:String,stars:String,rank:String,address:String,status:String) :String{
+        getBase64Image(image, complete = { base64Image ->
+            GlobalScope.launch(Dispatchers.Default) {
+                var url = URL("https://api.imgur.com/3/image")
+
+                val boundary = "Boundary-${System.currentTimeMillis()}"
+
+                val httpsURLConnection =
+                        withContext(Dispatchers.IO) { url.openConnection() as HttpsURLConnection }
+                httpsURLConnection.setRequestProperty("Authorization", "Client-ID $CLIENT_ID")
+                httpsURLConnection.setRequestProperty(
+                        "Content-Type",
+                        "multipart/form-data; boundary=$boundary"
+                )
+
+                httpsURLConnection.requestMethod = "POST"
+                httpsURLConnection.doInput = true
+                httpsURLConnection.doOutput = true
+
+                var body = ""
+                body += "--$boundary\r\n"
+                body += "Content-Disposition:form-data; name=\"image\""
+                body += "\r\n\r\n$base64Image\r\n"
+                body += "--$boundary--\r\n"
+
+
+                val outputStreamWriter = OutputStreamWriter(httpsURLConnection.outputStream)
+                withContext(Dispatchers.IO) {
+                    outputStreamWriter.write(body)
+                    Log.i("edddd", "uploadImageToImgur: "+body)
+                    outputStreamWriter.flush()
+                    val response = httpsURLConnection.inputStream.bufferedReader()
+                            .use { it.readText() }  // defaults to UTF-8
+                    val jsonObject = JSONTokener(response).nextValue() as JSONObject
+                    val data = jsonObject.getJSONObject("data")
+                    Log.d("TAG", "Link is : ${data.getString("link")}")
+                    urll=data.getString("link");
+                    try {
+                        var  doc = Jsoup.connect("https://mibtechnologies.in/hupariapp/uploadItem.php?catname=${catname_item}&name=${itemname}&stars=${stars}&ratings=55&ranks=${rank}&address=${address}&phone=${phonenumber}&status=${status}&image=${data.getString("link")}").get()  // <2>
+
+                    }catch (e: Exception){
+
+                    }
+
+                }
+
+            }
+
+        })
+        return urll
+
+
+    }
 
     private fun getBase64Image(image: Bitmap, complete: (String) -> Unit) {
         GlobalScope.launch {

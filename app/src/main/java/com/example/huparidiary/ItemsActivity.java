@@ -30,6 +30,7 @@ import com.example.huparidiary.network.CategoryJson;
 import com.example.huparidiary.network.ItemsJson;
 import com.example.huparidiary.network.imageupload;
 import com.example.huparidiary.ui.CategoryUploadDialog;
+import com.example.huparidiary.ui.ItemUploadDialog;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -65,7 +66,7 @@ public class ItemsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_items);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         Intent intent =getIntent();
-        intent.getStringExtra("CATNAME");
+    catName=    intent.getStringExtra("CATNAME");
         swipeRefreshLayout = findViewById(R.id.swiperefreshcat);
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -89,7 +90,7 @@ public class ItemsActivity extends AppCompatActivity {
                 new SwipeRefreshLayout.OnRefreshListener() {
                     @Override
                     public void onRefresh() {
-                    //    doYourUpdate();
+                       doYourUpdate();
                     }
                 }
         );
@@ -138,9 +139,9 @@ public class ItemsActivity extends AppCompatActivity {
             case R.id.addCategory:
                 Log.i("geraa", "onOptionsItemSelected: ");
                 Log.i("dialog", "onOptionsItemSelected: "+"clicked");
-                final CategoryUploadDialog uploadDialog = new CategoryUploadDialog(this);
+                final ItemUploadDialog uploadDialog = new ItemUploadDialog(this);
                 uploadDialog.show();
-                uploadDialog.catImage.setOnClickListener(new View.OnClickListener() {
+                uploadDialog.itemImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -160,7 +161,16 @@ public class ItemsActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         final String uuid = UUID.randomUUID().toString().replace("-", "");
                         Log.i("uuid is ", "onClick: "+uuid);
-                        String name=   new imageupload().uploadImageToImgur(bmp,uuid,uploadDialog.catName.getText().toString().trim());
+                        int radioid= uploadDialog.radiostatus.getCheckedRadioButtonId();
+                        uploadDialog.radioButton_status=uploadDialog.findViewById(radioid);
+                        Log.i("here we are ", "onClick: "+uploadDialog.radioButton_status.getText().toString());
+                        String name=   new imageupload().uploadImageToImgur(bmp,catName,
+                                                                            uploadDialog.itemName.getText().toString().trim(),
+                                                                            uploadDialog.phoneNumber.getText().toString().trim(),
+                                                                           String.valueOf( uploadDialog.ratingBar.getRating()),
+                                                                            uploadDialog.rank.getText().toString().trim(),
+                                                                            uploadDialog.address.getText().toString().trim(),
+                                                                            uploadDialog.radioButton_status.getText().toString().trim());
                         Log.i("war", "onActivityResult: "+name);
 
                         uploadDialog.dismiss();
@@ -186,59 +196,59 @@ public class ItemsActivity extends AppCompatActivity {
             try {
                 InputStream inputStream = this.getContentResolver().openInputStream(data.getData());
                 bmp = BitmapFactory.decodeStream(inputStream);
-                Picasso.get().load(data.getData()).into(CategoryUploadDialog.catImage);
+                Picasso.get().load(data.getData()).into(ItemUploadDialog.itemImage);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
 
         }
     }
-//    private void doYourUpdate() {
-//        // TODO implement a refresh
-//        RequestQueue queue = Volley.newRequestQueue(this);
-//
-//        myDataset=new ArrayList();
-//        StringRequest request=new StringRequest(url, new Response.Listener<String>() {
-//            @Override
-//            public void onResponse(String response) {
-//
-//
-////                GsonBuilder gsonBuilder=new GsonBuilder();
-////                Gson gson =gsonBuilder.create();
-////                CategoryJson categoryJson=gson.fromJson(response,CategoryJson.class);
-////                Log.d("TAG", "onResponse: "+categoryJson.getName());
-////                Log.d("TAG", "onResponse: "+categoryJson.getUid().trim());
-//                GsonBuilder builder=new GsonBuilder();
-//
-//                Gson gson1= builder.create();
-//                int i=0;
-//                CategoryJson[] categoryJsons=  gson1.fromJson(response,CategoryJson[].class);
-//                for (CategoryJson categoryJson1: categoryJsons)
-//                {
-//                    Log.i("TAG", "onResponse: "+categoryJson1.getCatname());
-//                    category cat= new category(categoryJson1.getUid(),categoryJson1.getCatname(),categoryJson1.getCatimage());
-//                    myDataset.add(cat);
-//                    i++;
-//                }
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError error) {
-//                Log.e("TAG", "onErrorResponse:",error );
-//            }
-//        });
-//
-//
-//
-//        queue.add(request);
-//        // specify an adapter (see also next example)
-//        mAdapter = new CatAdapter(this,myDataset);
-//        recyclerView.setAdapter(mAdapter);
-//
-//
-//        swipeRefreshLayout.setRefreshing(false); // Disables the refresh icon
-//
-//    }
+    private void doYourUpdate() {
+        // TODO implement a refresh
+        RequestQueue queue = Volley.newRequestQueue(this);
+
+        myDataset=new ArrayList();
+        StringRequest request=new StringRequest(url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+
+//                GsonBuilder gsonBuilder=new GsonBuilder();
+//                Gson gson =gsonBuilder.create();
+//                CategoryJson categoryJson=gson.fromJson(response,CategoryJson.class);
+//                Log.d("TAG", "onResponse: "+categoryJson.getName());
+//                Log.d("TAG", "onResponse: "+categoryJson.getUid().trim());
+                GsonBuilder builder=new GsonBuilder();
+
+                Gson gson1= builder.create();
+
+                ItemsJson[] itemsJsons = gson1.fromJson(response, ItemsJson[].class);
+                for (ItemsJson itemJson : itemsJsons) {
+                    Log.i("TAG", "onResponse: " + itemJson.getName());
+                    items item = new items(itemJson.getName(),itemJson.getStars(),itemJson.getRatings(),itemJson.getRanks(),itemJson.getAddress(),
+                            itemJson.getPhone(),itemJson.getStatus(),itemJson.getImage());
+                    myDataset.add(item);
+                }
+                mAdapter.notifyDataSetChanged();
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e("TAG", "onErrorResponse:",error );
+            }
+        });
+
+
+
+        queue.add(request);
+        // specify an adapter (see also next example)
+        mAdapter = new itemAdapter(this,myDataset,catName);
+        recyclerView.setAdapter(mAdapter);
+
+
+        swipeRefreshLayout.setRefreshing(false); // Disables the refresh icon
+
+    }
 
 }

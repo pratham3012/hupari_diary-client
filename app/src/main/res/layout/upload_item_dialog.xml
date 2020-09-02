@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -8,60 +7,130 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:orientation="vertical">
-
-    <TextView
-        android:textStyle="bold"
-        android:fontFamily="cursive"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="++ add category ++"
-        android:layout_marginBottom="14dp"
-        android:textSize="40sp" />
-
-    <TextView
-        android:id="@+id/scoreLabelDialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:text="category name"
-        android:textSize="25sp" />
-
-    <EditText
-        android:id="@+id/catName_dialog"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="enter the category name"/>
-
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <TextView
+            android:id="@+id/categoryname"
+            android:textStyle="bold"
+            android:fontFamily="cursive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="17dp"
-            android:text="chose image"/>
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_gravity="center"
+            android:text="++         add item        ++"
+            android:layout_marginBottom="14dp"
+            android:textSize="40sp" />
+
+        <TextView
+            android:id="@+id/scoreLabelDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:text=" name"
+            android:textSize="25sp" />
+
+        <EditText
+            android:id="@+id/item_Name_dialog"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:hint="enter the category name"/>
 
-            <ImageView
-                android:id="@+id/catImage_dialog"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17dp"
+                android:text="chose image"/>
+            <androidx.coordinatorlayout.widget.CoordinatorLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:src="@drawable/ic_android_black_24dp" />
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:id="@+id/itemImage_dialog"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@drawable/ic_android_black_24dp" />
+            </androidx.coordinatorlayout.widget.CoordinatorLayout>
+          <TextView
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="phone number"
+              android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:hint="enter phone number"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:text="stars"/>
+            <RatingBar
+                android:id="@+id/ratingbar_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="rank"
+                android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/rank"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="rank"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="address"
+                android:textSize="20dp"/>
+            <EditText
+                android:id="@+id/address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="address"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+android:text="status"/>
+     <RadioGroup
+         android:id="@+id/status_item"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:layout_margin="10dp"
+         >
+         <RadioButton
+             android:id="@+id/status_open"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_marginRight="10dp"
+             android:text="open"/>
+         <RadioButton
+             android:id="@+id/status_closed"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:text="closed"/>
+     </RadioGroup>
 
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
+        </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/btn_save_cat_dialog"
+                android:id="@+id/btn_save_item_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -74,7 +143,7 @@
                 android:textColor="#FFFFFF" />
 
             <Button
-                android:id="@+id/btn_cancel_cat_dialog"
+                android:id="@+id/btn_cancel_item_dialog"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
@@ -88,6 +157,9 @@
                 android:textColor="#FFFFFF" />
         </LinearLayout>
     </LinearLayout>
+
+</ScrollView>
+
 
 
 </LinearLayout>
