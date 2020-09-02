@@ -15,5 +15,6 @@
         android:orderInCategory="200"
         app:showAsAction="always"
         android:actionLayout="@layout/toolbar"
+        android:visible="false"
         android:title="Setting" />
 </menu>

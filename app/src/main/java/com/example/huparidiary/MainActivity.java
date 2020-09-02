@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         final String uuid = UUID.randomUUID().toString().replace("-", "");
                         Log.i("uuid is ", "onClick: "+uuid);
-                        String name=   new imageupload().uploadImageToImgur(bmp,uuid,uploadDialog.catName.getText().toString().trim());
+                        String name=   new imageupload().uploadImageToImgur(bmp,uuid,uploadDialog.catName.getText().toString().trim(), getApplicationContext());
                         Log.i("war", "onActivityResult: "+name);
 
                         uploadDialog.dismiss();

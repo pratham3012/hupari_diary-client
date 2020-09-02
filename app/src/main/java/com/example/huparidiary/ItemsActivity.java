@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -68,6 +70,7 @@ public class ItemsActivity extends AppCompatActivity {
         Intent intent =getIntent();
     catName=    intent.getStringExtra("CATNAME");
         swipeRefreshLayout = findViewById(R.id.swiperefreshcat);
+        String url="https://mibtechnologies.in/hupariapp/db_item_upload.php?catnamewa="+catName;
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         recyclerView.setHasFixedSize(true);
@@ -170,7 +173,7 @@ public class ItemsActivity extends AppCompatActivity {
                                                                            String.valueOf( uploadDialog.ratingBar.getRating()),
                                                                             uploadDialog.rank.getText().toString().trim(),
                                                                             uploadDialog.address.getText().toString().trim(),
-                                                                            uploadDialog.radioButton_status.getText().toString().trim());
+                                                                            uploadDialog.radioButton_status.getText().toString().trim(),getApplicationContext());
                         Log.i("war", "onActivityResult: "+name);
 
                         uploadDialog.dismiss();
@@ -206,6 +209,7 @@ public class ItemsActivity extends AppCompatActivity {
     private void doYourUpdate() {
         // TODO implement a refresh
         RequestQueue queue = Volley.newRequestQueue(this);
+        String url="https://mibtechnologies.in/hupariapp/db_item_upload.php?catnamewa="+catName;
 
         myDataset=new ArrayList();
         StringRequest request=new StringRequest(url, new Response.Listener<String>() {

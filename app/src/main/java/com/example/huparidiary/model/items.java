@@ -1,6 +1,8 @@
 package com.example.huparidiary.model;
 
-public class items {
+import java.io.Serializable;
+
+public class items implements Serializable {
     String name;
     String stars;
     String ratings;

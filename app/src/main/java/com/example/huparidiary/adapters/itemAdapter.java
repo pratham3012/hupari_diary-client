@@ -26,6 +26,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.huparidiary.ItemDetailActivity;
 import com.example.huparidiary.ItemsActivity;
 import com.example.huparidiary.R;
 import com.example.huparidiary.model.category;
@@ -98,12 +99,13 @@ public class itemAdapter extends  RecyclerView.Adapter<itemAdapter.MyViewHolder>
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        items item= mDataset.get(position);
+        final items item= mDataset.get(position);
         holder.itemname.setText(item.getName());
         holder.totalRatings.setText(item.getRatings());
         holder.catname.setText(catname_text);
         holder.status.setText(item.getStatus());
-
+        holder.ratingBar.setIsIndicator(true);
+        holder.ratingBar.setRating(Float.valueOf(item.getStars()));
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -172,10 +174,17 @@ public class itemAdapter extends  RecyclerView.Adapter<itemAdapter.MyViewHolder>
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //todo take him to item specific
-//                Intent intent= new Intent(activity, ItemsActivity.class);
-//                intent.putExtra("CATNAME",holder.car.getText().toString().trim());
-//                activity.startActivity(intent);
+
+                Intent intent= null;
+                try {
+                    intent = new Intent(activity, ItemDetailActivity.class);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                intent.putExtra("MyClass", item);
+                activity.startActivity(intent);
+
+
             }
         });
 
