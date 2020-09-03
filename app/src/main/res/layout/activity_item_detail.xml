@@ -27,6 +27,7 @@
             />
         <RatingBar
             android:id="@+id/rating"
+            android:isIndicator="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"/>
@@ -60,14 +61,27 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:text="address us kgsdjgsjkdfds ksahjkfdksfhdsfjk sdjfdskj fsjkdfdskfjkdsfdksfjlkdsfjks"/>
-        <Button
-            android:id="@+id/contact"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:background="#00E5FF"
-            android:text="call us "/>
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content">
+           <Button
+               android:id="@+id/contact"
+               android:layout_margin="10dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:background="#00E5FF"
+               android:text="call us "/>
+           <Button
+               android:id="@+id/btnlocation"
+               android:layout_margin="10dp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_gravity="center"
+               android:background="#00E5FF"
+               android:text="set location "/>
+       </LinearLayout>
+
     </LinearLayout>
 </ScrollView>
 

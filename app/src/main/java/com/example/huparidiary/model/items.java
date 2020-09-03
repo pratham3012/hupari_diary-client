@@ -11,8 +11,9 @@ public class items implements Serializable {
     String phone;
     String status;
     String image;
+    String catnamewas;
 
-    public items(String name, String stars, String ratings, String ranks, String address, String phone, String status, String image) {
+    public items(String name, String stars, String ratings, String ranks, String address, String phone, String status, String image, String catnamewas) {
         this.name = name;
         this.stars = stars;
         this.ratings = ratings;
@@ -21,6 +22,15 @@ public class items implements Serializable {
         this.phone = phone;
         this.status = status;
         this.image = image;
+        this.catnamewas = catnamewas;
+    }
+
+    public String getCatnamewas() {
+        return catnamewas;
+    }
+
+    public void setCatnamewas(String catnamewas) {
+        this.catnamewas = catnamewas;
     }
 
     public String getName() {

@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -59,13 +60,14 @@ public class ItemsActivity extends AppCompatActivity {
     public static final int PICK_IMAGE = 1;
     Bitmap     bmp;
     boolean canDelete=false;
-
+public static ProgressBar bar;
      String catName;
     SwipeRefreshLayout swipeRefreshLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items);
+        bar =findViewById(R.id.pBar);
         recyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
         Intent intent =getIntent();
     catName=    intent.getStringExtra("CATNAME");
@@ -112,7 +114,7 @@ public class ItemsActivity extends AppCompatActivity {
                 for (ItemsJson itemJson : itemsJsons) {
                     Log.i("TAG", "onResponse: " + itemJson.getName());
                     items item = new items(itemJson.getName(),itemJson.getStars(),itemJson.getRatings(),itemJson.getRanks(),itemJson.getAddress(),
-                                            itemJson.getPhone(),itemJson.getStatus(),itemJson.getImage());
+                                            itemJson.getPhone(),itemJson.getStatus(),itemJson.getImage(),catName);
                     myDataset.add(item);
                 }
                 mAdapter.notifyDataSetChanged();
@@ -230,7 +232,7 @@ public class ItemsActivity extends AppCompatActivity {
                 for (ItemsJson itemJson : itemsJsons) {
                     Log.i("TAG", "onResponse: " + itemJson.getName());
                     items item = new items(itemJson.getName(),itemJson.getStars(),itemJson.getRatings(),itemJson.getRanks(),itemJson.getAddress(),
-                            itemJson.getPhone(),itemJson.getStatus(),itemJson.getImage());
+                            itemJson.getPhone(),itemJson.getStatus(),itemJson.getImage(),catName);
                     myDataset.add(item);
                 }
                 mAdapter.notifyDataSetChanged();
