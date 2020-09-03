@@ -1,3 +1,17 @@
 <resources>
-    <string name="app_name">hupari diary</string>
+
+
+
+    <string name="app_name">Hupri Diary</string>
+    <string name="name">Name of Item in List</string>
+    <string name="rank">Rank</string>
+    <string name="contactDetails">Contact Details</string>
+    <string name="address">Address</string>
+    <string name="call">Call</string>
+    <string name="direction">Open Location in Maps</string>
+    <string name="changeLang">Change Language</string>
+
+
+
+
 </resources>

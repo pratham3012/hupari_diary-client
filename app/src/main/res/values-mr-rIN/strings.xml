@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Hupri Diary</string>
+    <string name="name">Name of Item in List</string>
+    <string name="rank">रँक</string>
+    <string name="contactDetails">संपर्काची माहिती</string>
+    <string name="address">पत्ता</string>
+    <string name="call">कॉल करा</string>
+    <string name="direction">दिशा</string>
+    <string name="changeLang">भाषा बदला</string>
+</resources>

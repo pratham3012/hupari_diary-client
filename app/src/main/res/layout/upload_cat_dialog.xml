@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="++ add category ++"
+        android:text="Add Category ++"
         android:layout_marginBottom="14dp"
         android:textSize="40sp" />
 
@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:text="category name"
+        android:text="Category Name"
         android:textSize="25sp" />
 
     <EditText

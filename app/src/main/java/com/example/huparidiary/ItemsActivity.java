@@ -79,9 +79,9 @@ public static ProgressBar bar;
         toolbar = (Toolbar) findViewById(R.id.include);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(catName+" page");
+            getSupportActionBar().setTitle(catName+" Page");
         }
-        toolbar.setSubtitle(catName+" choose");
+        toolbar.setSubtitle(catName+" Choose");
         toolbar.inflateMenu(R.menu.menu);
         // use a linear layout manager
         layoutManager = new LinearLayoutManager(this);
