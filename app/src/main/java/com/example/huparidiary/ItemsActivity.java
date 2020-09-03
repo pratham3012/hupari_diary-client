@@ -137,60 +137,7 @@ public static ProgressBar bar;
         getMenuInflater().inflate(R.menu.menu, menu);
         return true;
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.addCategory:
-                Log.i("geraa", "onOptionsItemSelected: ");
-                Log.i("dialog", "onOptionsItemSelected: "+"clicked");
-                final ItemUploadDialog uploadDialog = new ItemUploadDialog(this);
-                uploadDialog.show();
-                uploadDialog.itemImage.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent getIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                        getIntent.setType("image/*");
 
-                        Intent pickIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        pickIntent.setType("image/*");
-
-                        Intent chooserIntent = Intent.createChooser(getIntent, "Select Image");
-                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[] {pickIntent});
-
-                        startActivityForResult(chooserIntent, PICK_IMAGE);
-                    }
-                });
-                uploadDialog.catSaveBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        final String uuid = UUID.randomUUID().toString().replace("-", "");
-                        Log.i("uuid is ", "onClick: "+uuid);
-                        int radioid= uploadDialog.radiostatus.getCheckedRadioButtonId();
-                        uploadDialog.radioButton_status=uploadDialog.findViewById(radioid);
-                        Log.i("here we are ", "onClick: "+uploadDialog.radioButton_status.getText().toString());
-                        String name=   new imageupload().uploadImageToImgur(bmp,catName,
-                                                                            uploadDialog.itemName.getText().toString().trim(),
-                                                                            uploadDialog.phoneNumber.getText().toString().trim(),
-                                                                           String.valueOf( uploadDialog.ratingBar.getRating()),
-                                                                            uploadDialog.rank.getText().toString().trim(),
-                                                                            uploadDialog.address.getText().toString().trim(),
-                                                                            uploadDialog.radioButton_status.getText().toString().trim(),getApplicationContext());
-                        Log.i("war", "onActivityResult: "+name);
-
-                        uploadDialog.dismiss();
-                    }
-                });
-                return true;
-
-            case R.id.deleteCategory:
-
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE) {

@@ -106,71 +106,7 @@ public class itemAdapter extends  RecyclerView.Adapter<itemAdapter.MyViewHolder>
         holder.status.setText(item.getStatus());
         holder.ratingBar.setIsIndicator(true);
         holder.ratingBar.setRating(Float.valueOf(item.getStars()));
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Toast.makeText( activity, "pressed", Toast.LENGTH_SHORT).show();
-                AlertDialog.Builder builder
-                        = new AlertDialog
-                        .Builder(activity);
-                builder.setMessage("Do you want to delete"+holder.itemname.getText().toString()+"  ?");
-                builder.setTitle("Alert !");
-                builder.setCancelable(false);
 
-                builder
-                        .setPositiveButton(
-                                "Yes",
-                                new DialogInterface
-                                        .OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog,
-                                                        int which)
-                                    {
-                                        // When the user click yes button
-                                        RequestQueue queue = Volley.newRequestQueue(activity);
-                                        StringRequest request=new StringRequest("https://mibtechnologies.in/hupariapp/deletecat.php?uid="+ holder.catname.getText().toString().trim() , new Response.Listener<String>() {
-                                            @Override
-                                            public void onResponse(String response) {
-
-                                            }
-                                        }, new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Log.e("TAG", "onErrorResponse:",error );
-                                            }
-                                        });
-
-
-                                        queue.add(request);
-                                        //
-
-                                    }
-                                });
-                builder
-                        .setNegativeButton(
-                                "No",
-                                new DialogInterface
-                                        .OnClickListener() {
-
-                                    @Override
-                                    public void onClick(DialogInterface dialog,
-                                                        int which)
-                                    {
-
-                                        dialog.cancel();
-                                    }
-                                });
-
-                // Create the Alert dialog
-                AlertDialog alertDialog = builder.create();
-
-                // Show the Alert Dialog box
-                alertDialog.show();
-
-                return false;
-            }
-        });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -27,6 +27,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.huparidiary.model.items;
 import com.example.huparidiary.network.ItemsJson;
+import com.example.huparidiary.network.LocationJson;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
@@ -40,6 +41,7 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Locale;
 
 import static android.Manifest.permission.CALL_PHONE;
 
@@ -90,17 +92,33 @@ public class ItemDetailActivity extends AppCompatActivity {
           @Override
           public void onClick(View view) {
 
-              PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+              RequestQueue queue = Volley.newRequestQueue(ItemDetailActivity.this);
+              String url="https://mibtechnologies.in/hupariapp/getlocation.php?catnamewa="+item.getCatnamewas()+"&name="+item.getName();
+              StringRequest request=new StringRequest(url, new Response.Listener<String>() {
+                  @Override
+                  public void onResponse(String response) {
+                     String realjson= response.replace("[","").replace("]","");
+                      GsonBuilder gsonBuilder=new GsonBuilder();
+                      Gson gson =gsonBuilder.create();
+                      LocationJson locationJson=gson.fromJson(realjson,LocationJson.class);
+                      Log.d("TAG", "onResponse: "+locationJson.getLatitude());
+                      Float latitude=Float.parseFloat(locationJson.getLatitude());
+                      Float longitude=Float.parseFloat(locationJson.getLongitude());
+                      Log.d("TAG", "onResponse: "+locationJson.getLongitude());
+                      String uri = String.format(Locale.ENGLISH, "geo:%f,%f", latitude, longitude);
+                      Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                      startActivity(intent);
+                  }
+              }, new Response.ErrorListener() {
+                  @Override
+                  public void onErrorResponse(VolleyError error) {
+                      Log.e("TAG", "onErrorResponse:",error );
+                  }
+              });
 
-              Context context = getApplicationContext();
-              try {
-                  startActivityForResult(builder.build(ItemDetailActivity.this), PLACE_PICKER_REQUEST);
-                  PLACE_PICKER_REQUEST=1;
-              } catch (GooglePlayServicesRepairableException e) {
-                  e.printStackTrace();
-              } catch (GooglePlayServicesNotAvailableException e) {
-                  e.printStackTrace();
-              }
+
+
+              queue.add(request);
           }
       });
 
@@ -114,23 +132,7 @@ public class ItemDetailActivity extends AppCompatActivity {
                 Place place = PlacePicker.getPlace(data, this);
                 String toastMsg = String.format("Place: %s", place.getLatLng());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
-                RequestQueue queue = Volley.newRequestQueue(this);
-                String url="https://mibtechnologies.in/hupariapp/setlocation.php?catname="+item.getCatnamewas()+"&name="+item.getName()+"&latitude="+place.getLatLng().latitude+"&longitude="+place.getLatLng().longitude;
-                StringRequest request=new StringRequest(url, new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(ItemDetailActivity.this, "location has been set", Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.e("TAG", "onErrorResponse:",error );
-                    }
-                });
 
-
-
-                queue.add(request);
             }
         }
     }

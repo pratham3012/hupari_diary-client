@@ -79,7 +79,7 @@
                android:layout_height="wrap_content"
                android:layout_gravity="center"
                android:background="#00E5FF"
-               android:text="set location "/>
+               android:text="open location in maps "/>
        </LinearLayout>
 
     </LinearLayout>

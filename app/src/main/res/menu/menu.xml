@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/addCategory"
-        android:orderInCategory="100"
-        android:icon="@drawable/ic_baseline_add_box_24"
-        app:showAsAction="always"
-        android:actionLayout="@layout/toolbar"
-        android:title="DAD" />
 
-    <item
-        android:id="@+id/deleteCategory"
-        android:icon="@drawable/ic_android_black_24dp"
-        android:orderInCategory="200"
-        app:showAsAction="always"
-        android:actionLayout="@layout/toolbar"
-        android:visible="false"
-        android:title="Setting" />
 </menu>
